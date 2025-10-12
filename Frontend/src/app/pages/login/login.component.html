@@ -1,0 +1,39 @@
+<div class="login-wrapper parent-container">
+  <div class="glass-card container">
+    <!-- Logo -->
+    <div class="logo">
+      <img src="assets/ZeroBillX.svg" alt="ZeroBillX Logo" class="logo" style="height: 300px;" />
+      <h1></h1>
+    </div>
+
+    <!-- Login Form -->
+    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+      
+      <!-- Username Field -->
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your username!">
+          <nz-input-group nzPrefixIcon="user">
+            <input type="text" nz-input formControlName="userName" placeholder="Username" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Password Field -->
+      <nz-form-item>
+        <nz-form-control nzErrorTip="Please input your password!">
+          <nz-input-group nzPrefixIcon="lock">
+            <input type="password" nz-input formControlName="password" placeholder="Password" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!-- Submit Button -->
+      <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'" type="submit">
+        Log in
+      </button>
+
+      <!-- Signup Link -->
+      <p>Or <a href="/register">sign up now!</a></p>
+    </form>
+  </div>
+</div>
