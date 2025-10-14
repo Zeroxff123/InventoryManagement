@@ -108,8 +108,25 @@ input {
   font-family: inherit;
 }
 
+/* Ensure visibility for Ant Design input variants */
+.ant-input,
+.ant-input-affix-wrapper {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #f1f5f9 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.ant-input-affix-wrapper .ant-input {
+  background: transparent !important;
+  color: #f1f5f9 !important;
+}
+
 input::placeholder {
   color: rgba(255, 255, 255, 0.4);
+}
+
+.ant-input::placeholder {
+  color: rgba(255, 255, 255, 0.55) !important;
 }
 
 input:focus {
@@ -125,17 +142,20 @@ input:hover:not(:focus) {
 
 /* Input icons styling */
 .ant-input-prefix {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(17, 14, 14, 0.823);
   margin-right: 12px;
 }
 
 /* 🔹 Button Styling */
 button {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   width: 100%;
   margin: 0 auto;
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: white;
+  color: rgb(247, 238, 238);
   border: none;
   padding: 14px 24px;
   border-radius: 12px;
@@ -146,6 +166,14 @@ button {
   position: relative;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* Ensure Ant Design button content is centered */
+.ant-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 button::before {
