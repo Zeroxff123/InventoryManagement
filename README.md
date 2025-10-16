@@ -1,105 +1,112 @@
-
-# **ZeroBillX**
+ZeroBillX
 
 ZeroBillX is an advanced invoice management system built with Angular 16, ASP.NET Core Web API 6.0, and SQL Server. This system provides full-fledged invoicing capabilities, including unlimited invoice creation, customer management, PDF generation, and more. The frontend is built with Angular and utilizes NG-Zorro UI components for a modern, responsive design.
 
-## Features
+Note: This is a proprietary version of ZeroBillX owned by ZeroxFF. Unauthorized copying, redistribution, or modification is strictly prohibited.
 
-- **Create Unlimited Invoices**: Generate invoices without any restrictions.
-- **Email Invoice**: Send invoices directly to customers via email.
-- **PDF Generation**: Export invoices as PDFs for easy sharing and storage.
-- **Customer Management**: Add, edit, and manage customers with multiple shipping addresses.
-- **Authentication & Roles**: Secure login and role-based access control.
-- **Customer Product Management**: Add products linked to customers for quick access.
-- **Sign Up & Profile Management**: Users can sign up and manage their profile.
-- **Image Upload**: Upload and manage profile pictures and invoice logos.
-- **VAT Management**: Handle VAT for customer invoices.
-- **Database**: Built to work with SQL Server.
+Features
+
+Create Unlimited Invoices: Generate invoices without any restrictions.
+
+Email Invoice: Send invoices directly to customers via email.
+
+PDF Generation: Export invoices as PDFs for easy sharing and storage.
+
+Customer Management: Add, edit, and manage customers with multiple shipping addresses.
+
+Authentication & Roles: Secure login and role-based access control.
+
+Customer Product Management: Add products linked to customers for quick access.
+
+Sign Up & Profile Management: Users can sign up and manage their profile.
+
+Image Upload: Upload and manage profile pictures and invoice logos.
+
+VAT Management: Handle VAT for customer invoices.
+
+Database: Built to work with SQL Server.
+
+Technologies Used
+
+Frontend: Angular with NG-Zorro (Responsive UI components)
+
+Backend: ASP.NET Core Web API 6.0 (Robust and scalable API layer)
+
+Database: SQL Server (Code First Migration)
+
+Installation (Without Docker)
+Prerequisites
+
+Node.js (For Angular)
+
+SQL Server (For database)
+
+.NET 6.0 SDK (For ASP.NET Core)
+
+Installation Steps
+
+Clone the repository:
+
+git clone <your-private-repo-url>
+cd ZeroBillX
 
 
+Frontend (Angular):
 
-## Technologies Used
-
-- **Frontend**: Angular with NG-Zorro (Responsive UI components).
-- **Backend**: ASP.NET Core Web API 6.0 (Robust and scalable API layer).
-- **Database**: SQL Server (Code First Migration).
-
+cd frontend
+npm install
+ng serve
 
 
-## How to Install (without Docker)
+Backend (ASP.NET Core):
 
-### Prerequisites
+cd backend
+dotnet restore
 
-- **Node.js** (For Angular)
-- **SQL Server** (For database)
-- **.NET 6.0 SDK** (For ASP.NET Core)
 
-### Installation
+Database Setup (SQL Server):
 
-1. Clone the repository:
+Ensure SQL Server is installed and running.
 
-   ```bash
-   git clone https://github.com/codebangla/ZeroBillX.git
-   cd ZeroBillX
-   ```
+Update the connection strings in appsettings.json to configure your SQL Server database.
 
-2. **Frontend (Angular)**:
+Example:
 
-   ```bash
-   cd frontend
-   npm install
-   ng serve
-   ```
+"ConnectionStrings": {
+  "SqlServerConnection": "Your SQL Server connection string"
+}
 
-3. **Backend (ASP.NET Core)**:
 
-   ```bash
-   cd backend
-   dotnet restore
-   ```
+Apply Migrations:
 
-4. **Database Setup (SQL Server)**:
+dotnet ef database update
 
-   - Ensure SQL Server is installed and running.
-   - Update the connection strings in `appsettings.json` to configure your SQL Server database.
+Running the Application
 
-     Example:
+Run the Angular frontend:
 
-     ```json
-     "ConnectionStrings": {
-       "SqlServerConnection": "Your SQL Server connection string"
-     }
-     ```
+ng serve
 
-5. **Apply Migrations**:
-   ```bash
-   dotnet ef database update
-   ```
 
-### Running the Application
+Run the ASP.NET Core backend:
 
-1. Run the **Angular frontend**:
+dotnet run
 
-   ```bash
-   ng serve
-   ```
 
-2. Run the **ASP.NET Core backend**:
+Open your browser and navigate to http://localhost:4200 for the frontend.
 
-   ```bash
-   dotnet run
-   ```
+Admin login: username: admin1, password: admin1
 
-   3. Open your browser and navigate to `http://localhost:4200` for the frontend. Login with `username: admin1, password: admin1` as admin or `username: employee1, password: employee1` as employee. The backend is at `http://localhost:5000/swagger/index.html`
+Employee login: username: employee1, password: employee1
 
-3. To use SMTP with Outlook, you need to generate an app password if two-factor authentication (2FA) is enabled on your Microsoft account. Follow this [guide on how to get an app password](https://support.microsoft.com/en-us/account-billing/how-to-get-and-use-app-passwords-5896ed9b-4263-e681-128a-a6f2979a7944) for detailed steps.
+Backend Swagger API: http://localhost:5000/swagger/index.html
 
-   Make sure to replace the `"Password"` field in your `appsettings.js` with your generated app password.
-   In your `appsettings.js` file, use the following format to configure the SMTP server:
+SMTP Configuration (Outlook):
 
-```json
+If two-factor authentication (2FA) is enabled, generate an app password. Update your appsettings.json:
+
 {
-  Email": {
+  "Email": {
     "SmtpServer": "smtp.office365.com",
     "SmtpPort": 587,
     "SenderEmail": "your-email@outlook-or-hotmail.com",
@@ -107,32 +114,33 @@ ZeroBillX is an advanced invoice management system built with Angular 16, ASP.NE
     "SenderPassword": "your-app-password"
   }
 }
-```
 
+Installation (With Docker)
 
+Make sure Docker Desktop is installed.
 
-## How to Install (with Docker)
+Run:
 
-Make sure you have Docker Desktop installed. Then run
-
-```bash
 docker-compose up
-```
-
-You might see the seeder failed in docker compose log. To make the seeder happend, from your Docker Desktop, stop the backend container and run it again from ZeroBillX.
-Open your browser and navigate to `http://localhost:4444` for the frontend.
-Login with `username: admin1, password: admin1` as admin or `username: employee1, password: employee1` as employee. The backend is at `http://localhost:5000/swagger/index.html`
 
 
+If the seeder fails, stop the backend container from Docker Desktop and run it again from ZeroBillX.
 
-## Contributing
+Access the frontend at http://localhost:4444.
 
-We welcome contributions! Please submit a pull request or report issues. Ensure your code follows the project guidelines and passes all tests before submission.
+Admin login: username: admin1, password: admin1
 
-## License
+Employee login: username: employee1, password: employee1
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Backend Swagger API: http://localhost:5000/swagger/index.html
 
----
+Contributing
 
-Let me know if you'd like any further modifications!
+This is a proprietary system. Unauthorized contributions or public forks are prohibited. Please contact ZeroxFF for collaboration or licensing inquiries.
+
+License
+
+This project is proprietary and confidential. Unauthorized use, copying, distribution, or modification is strictly prohibited.
+All rights reserved © 2025 ZeroxFF.
+
+For full license details, see the LICENSE file.
