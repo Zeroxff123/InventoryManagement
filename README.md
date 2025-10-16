@@ -1,8 +1,7 @@
-![Invoicika](https://i.imgur.com/8AF7yiL.png)
 
-# **Invoicika**
+# **ZeroBillX**
 
-Invoicika is an advanced invoice management system built with Angular 16, ASP.NET Core Web API 6.0, and SQL Server. This system provides full-fledged invoicing capabilities, including unlimited invoice creation, customer management, PDF generation, and more. The frontend is built with Angular and utilizes NG-Zorro UI components for a modern, responsive design.
+ZeroBillX is an advanced invoice management system built with Angular 16, ASP.NET Core Web API 6.0, and SQL Server. This system provides full-fledged invoicing capabilities, including unlimited invoice creation, customer management, PDF generation, and more. The frontend is built with Angular and utilizes NG-Zorro UI components for a modern, responsive design.
 
 ## Features
 
@@ -17,7 +16,7 @@ Invoicika is an advanced invoice management system built with Angular 16, ASP.NE
 - **VAT Management**: Handle VAT for customer invoices.
 - **Database**: Built to work with SQL Server.
 
-![Description](https://i.imgur.com/uDmUb5U.png)
+
 
 ## Technologies Used
 
@@ -25,7 +24,7 @@ Invoicika is an advanced invoice management system built with Angular 16, ASP.NE
 - **Backend**: ASP.NET Core Web API 6.0 (Robust and scalable API layer).
 - **Database**: SQL Server (Code First Migration).
 
-![Description](https://i.imgur.com/0dwmGY1.png)
+
 
 ## How to Install (without Docker)
 
@@ -40,8 +39,8 @@ Invoicika is an advanced invoice management system built with Angular 16, ASP.NE
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/codebangla/invoicika.git
-   cd invoicika
+   git clone https://github.com/codebangla/ZeroBillX.git
+   cd ZeroBillX
    ```
 
 2. **Frontend (Angular)**:
@@ -104,13 +103,13 @@ Invoicika is an advanced invoice management system built with Angular 16, ASP.NE
     "SmtpServer": "smtp.office365.com",
     "SmtpPort": 587,
     "SenderEmail": "your-email@outlook-or-hotmail.com",
-    "SenderName": "Invoicika Team",
+    "SenderName": "ZeroBillX Team",
     "SenderPassword": "your-app-password"
   }
 }
 ```
 
-![Description](https://i.imgur.com/wrV0y1L.png)
+
 
 ## How to Install (with Docker)
 
@@ -120,11 +119,11 @@ Make sure you have Docker Desktop installed. Then run
 docker-compose up
 ```
 
-You might see the seeder failed in docker compose log. To make the seeder happend, from your Docker Desktop, stop the backend container and run it again from Invoicika.
+You might see the seeder failed in docker compose log. To make the seeder happend, from your Docker Desktop, stop the backend container and run it again from ZeroBillX.
 Open your browser and navigate to `http://localhost:4444` for the frontend.
 Login with `username: admin1, password: admin1` as admin or `username: employee1, password: employee1` as employee. The backend is at `http://localhost:5000/swagger/index.html`
 
-![Description](https://i.imgur.com/vNY5TTM.png)
+
 
 ## Contributing
 
