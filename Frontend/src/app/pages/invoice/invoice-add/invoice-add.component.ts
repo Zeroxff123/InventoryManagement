@@ -21,8 +21,7 @@ export class InvoiceAddComponent implements OnInit {
   vatAmount = 0;
   totalAmount = 0;
   userId: any;
-  auto: any;
-  customerInput: any = null;
+  customerMode: 'select' | 'new' = 'select'; // <-- Added
   selectedCustomerId: number | null = null;
   selectedCustomerName: string = '';
 
@@ -37,6 +36,7 @@ export class InvoiceAddComponent implements OnInit {
   ngOnInit(): void {
     this.validateForm = this.fb.group({
       customerId: [null, []],
+      customerName: ['', []], // <-- Added
       invoiceDate: [null, [Validators.required]],
       customer: ['', []],
       vatId: [null],
@@ -143,24 +143,30 @@ export class InvoiceAddComponent implements OnInit {
   }
 
   submitForm(): void {
-
     if (this.validateForm.valid) {
       const formValue = this.validateForm.value;
-      const payload = {
-        customer_id: this.customerInput ?? null,
+      const payload: any = {
         user_id: this.userId,
         invoiceDate: formValue.invoiceDate,
         vat_id: formValue.vatId,
         subTotalAmount: parseFloat(formValue.subTotal),
         vatAmount: parseFloat(formValue.tax),
         totalAmount: parseFloat(formValue.total),
-        CustomerName: this.customerInput,
         customerInvoiceLines: formValue.lineItems.map((item: any) => ({
           item_id: item.item,
           quantity: item.quantity,
           price: item.price,
         })),
       };
+
+      // Customer selection logic
+      if (this.customerMode === 'select') {
+        payload.Customer_id = formValue.customerId;
+        payload.CustomerName = null;
+      } else {
+        payload.Customer_id = null;
+        payload.CustomerName = formValue.customerName;
+      }
 
       this.invoiceService.addCustomerInvoice(payload).subscribe({
         next: () => {
@@ -177,19 +183,5 @@ export class InvoiceAddComponent implements OnInit {
 
   onBack(): void {
     this.router.navigate(['/invoices/all']);
-  }
-
-  onCustomerChange(value: any) {
-    // reset selection if typing something new
-    this.customerInput = value;
-    console.log(value)
-  }
-
-  // when user selects from dropdown
-  onCustomerSelect(option: any) {
-    this.selectedCustomerId = option.nzValue;
-    const selected = this.customersList.find(c => c.customerId === option.nzValue);
-    this.selectedCustomerName = selected ? selected.name : '';
-    this.customerInput = this.selectedCustomerId; // show name in input
   }
 }

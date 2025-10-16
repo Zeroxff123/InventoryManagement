@@ -20,6 +20,8 @@ import { InvoiceShowComponent } from './invoice-show/invoice-show.component';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzAutocompleteModule } from "ng-zorro-antd/auto-complete";
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import { NzAutocompleteModule } from "ng-zorro-antd/auto-complete";
     NzSpinModule,
     NzModalModule,
     NzAutocompleteModule,
+    NzRadioModule,
     FormsModule
 ],
 })

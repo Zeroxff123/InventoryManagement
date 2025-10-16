@@ -3,21 +3,28 @@
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
   <div class="form-row">
     <nz-row [nzGutter]="16" class="header">
-      <!-- Company Info Section -->
+      <!-- Customer Section -->
       <nz-col nzSpan="5">
         <nz-form-item>
           <nz-form-label [nzSpan]="6">Customer</nz-form-label>
           <nz-form-control [nzSpan]="18">
-            <input type="text" nz-input placeholder="Customer" [nzAutocomplete]="auto" [(ngModel)]="customerInput"
-              (ngModelChange)="onCustomerChange($event)" />
-
-            <nz-autocomplete #auto (selectionChange)="onCustomerSelect($event)">
-              <nz-auto-option *ngFor="let cust of customersList" [nzValue]="cust.name">
-                {{ cust.name }}
-              </nz-auto-option>
-            </nz-autocomplete>
-
-
+            <div class="customer-mode-buttons">
+              <button type="button" 
+                      [class.active]="customerMode === 'select'"
+                      (click)="customerMode = 'select'">Select Existing</button>
+              <button type="button" 
+                      [class.active]="customerMode === 'new'"
+                      (click)="customerMode = 'new'">Add New</button>
+            </div>
+            <ng-container *ngIf="customerMode === 'select'">
+              <nz-select formControlName="customerId" nzPlaceHolder="Select Customer">
+                <nz-option *ngFor="let customer of customersList" [nzValue]="customer.customerId"
+                  [nzLabel]="customer.name"></nz-option>
+              </nz-select>
+            </ng-container>
+            <ng-container *ngIf="customerMode === 'new'">
+              <input nz-input formControlName="customerName" placeholder="Enter new customer name" />
+            </ng-container>
           </nz-form-control>
         </nz-form-item>
       </nz-col>
@@ -112,7 +119,10 @@
 
   <nz-form-item>
     <nz-form-control [nzXs]="24" [nzSm]="8">
-      <button nz-button nzType="primary" class="small-button"><span nz-icon nzType="plus"></span>Create</button>
+      <button nz-button nzType="primary" class="small-button"
+        [disabled]="customerMode === 'select' ? !validateForm.value.customerId : !validateForm.value.customerName">
+        <span nz-icon nzType="plus"></span>Create
+      </button>
     </nz-form-control>
   </nz-form-item>
 </form>

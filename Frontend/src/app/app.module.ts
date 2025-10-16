@@ -18,6 +18,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzRadioModule } from 'ng-zorro-antd/radio'; // <-- Added import
 
 registerLocaleData(en);
 
@@ -38,6 +39,7 @@ registerLocaleData(en);
     NzInputModule,
     NzAutocompleteModule,
     NzFormModule,
+    NzRadioModule, // <-- Added here
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US, },

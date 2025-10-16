@@ -51,5 +51,9 @@ export class CustomerService {
   deleteCustomer(customerId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${customerId}`);
   }
+
+  getAllCustomers(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl).pipe(catchError(() => of([])));
+  }
   
 }

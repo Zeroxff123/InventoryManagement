@@ -38,14 +38,13 @@ namespace WebAPI.Services
 
         public async Task<CustomerInvoiceDto> GetCustomerInvoiceByIdAsync(Guid id)
         {
-            var invoice = await _context.CustomerInvoices
-                .Include(c => c.Customer_id)
-                .Include(c => c.User)
-                .Include(c => c.VAT)
-                .Include(c => c.CustomerInvoiceLines)
-                .ThenInclude(l => l.Item)
-                .FirstOrDefaultAsync(c => c.CustomerInvoiceId == id);
+            var invoice = await _context.CustomerInvoices.FirstOrDefaultAsync(c => c.CustomerInvoiceId == id);
 
+            var custline = await _context.CustomerInvoiceLines
+                .Include(l => l.Item)
+                .Where(x => x.CustomerInvoice_id == id)
+                .ToListAsync();
+            invoice.CustomerInvoiceLines = custline;
             // Map to DTO (consider using AutoMapper)
             return new CustomerInvoiceDto
             {
@@ -59,28 +58,23 @@ namespace WebAPI.Services
                 VatAmount = invoice.VatAmount,
                 TotalAmount = invoice.TotalAmount,
                 Vat_id = invoice.Vat_id,
-                CustomerInvoiceLines = invoice.CustomerInvoiceLines.Select(l => new CustomerInvoiceLineDto
-                {
-                    InvoiceLineId = l.InvoiceLineId,
-                    CustomerInvoice_id = l.CustomerInvoice_id,
-                    Item_id = l.Item_id,
-                    ItemName = l.Item.Name,
-                    ItemDescription = l.Item.Description,
-                    Quantity = l.Quantity,
-                    Price = l.Price
-                }).ToList()
+                CustomerInvoiceLines = invoice.CustomerInvoiceLines
+                    .Select(l => new CustomerInvoiceLineDto
+                    {
+                        InvoiceLineId = l.InvoiceLineId,
+                        CustomerInvoice_id = l.CustomerInvoice_id,
+                        Item_id = l.Item_id,
+                        ItemName = l.Item?.Name,
+                        ItemDescription = l.Item?.Description,
+                        Quantity = l.Quantity,
+                        Price = l.Price
+                    }).ToList()
             };
         }
 
         public async Task<IEnumerable<CustomerInvoiceDto>> GetAllCustomerInvoicesAsync()
         {
-            var invoices = await _context.CustomerInvoices
-                .Include(c => c.Customer_id)
-                .Include(c => c.User)
-                .Include(c => c.VAT)
-                .Include(c => c.CustomerInvoiceLines)
-                .ThenInclude(l => l.Item)
-                .ToListAsync();
+            var invoices = await _context.CustomerInvoices.ToListAsync();
 
             // Map to DTOs (consider using AutoMapper)
             return invoices.Select(invoice => new CustomerInvoiceDto
@@ -110,18 +104,28 @@ namespace WebAPI.Services
 
         public async Task CreateCustomerInvoiceAsync(CustomerInvoiceDto dto)
         {
-            var customer = await _context.Customers.FirstOrDefaultAsync(x => x.CustomerId == dto.Customer_id);
-            if (customer is null)
+            Customer customer = null;
+
+            // If Customer_id is not provided, try to find by name or create new
+            if (dto.Customer_id == null && !string.IsNullOrWhiteSpace(dto.CustomerName))
             {
-                var customerid = Guid.NewGuid();
-                dto.Customer_id = customerid;
-                Customer cust = new Customer
+                customer = await _context.Customers
+                    .FirstOrDefaultAsync(x => x.Name == dto.CustomerName);
+
+                if (customer == null)
                 {
-                    CustomerId = customerid,
-                    Name = dto.CustomerName
-                };
-                _context.Add(cust);
+                    customer = new Customer
+                    {
+                        CustomerId = Guid.NewGuid(),
+                        Name = dto.CustomerName,
+                        CreationDate = DateTime.UtcNow
+                    };
+                    _context.Customers.Add(customer);
+                    await _context.SaveChangesAsync();
+                }
+                dto.Customer_id = customer.CustomerId;
             }
+
             var invoice = new CustomerInvoice
             {
                 CustomerInvoiceId = dto.CustomerInvoiceId,
@@ -152,7 +156,6 @@ namespace WebAPI.Services
             }
             catch (DbUpdateException ex)
             {
-                // Handle exception or log detailed error information here
                 throw;
             }
         }
@@ -205,7 +208,7 @@ namespace WebAPI.Services
         public async Task<byte[]> GenerateInvoicePdfAsync(Guid invoiceId)
         {
             var invoice = await _context.CustomerInvoices
-            .Include(c => c.Customer_id)  
+            .Include(c => c.Customer)
             .Include(c => c.User)      
             .Include(c => c.VAT)       
             .Include(c => c.CustomerInvoiceLines)

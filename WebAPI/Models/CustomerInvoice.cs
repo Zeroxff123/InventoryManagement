@@ -10,6 +10,10 @@ public class CustomerInvoice
 
     public Guid? Customer_id { get; set; }
 
+    [ForeignKey(nameof(Customer_id))]
+    public virtual Customer Customer { get; set; }
+
+
     public Guid User_id { get; set; }
 
     [ForeignKey(nameof(User_id))]
